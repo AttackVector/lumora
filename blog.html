@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blog - Lumora Linux</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>body{margin:0}</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Lumora Linux home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#213a63"/><path d="M8 29c4-9 11-14 24-14-1 11-8 18-17 18-3 0-5-1.700-7-4z" fill="#e0a526"/><path d="M12 28l9-8" stroke="#213a63" stroke-width="2" stroke-linecap="round"/></svg>
+      Lumora
+    </a>
+    <nav aria-label="Main">
+      <a href="index.html#about">About</a>
+      <a href="index.html#features">Features</a>
+      <a href="blog.html" aria-current="page">Blog</a>
+      <a href="index.html#download">Download</a>
+      <a href="index.html#support">Support</a>
+      <a href="index.html#involved">Get Involved</a>
+      <a href="index.html#funding">Funding</a>
+    </nav>
+  </div>
+</header>
+<div class="pagehead"><div class="wrap">
+  <p class="crumb"><a href="index.html">Home</a> / Blog</p>
+  <h1>Lumora blog</h1>
+  <p class="sub">Release news, testing calls and community updates.</p>
+</div></div>
+<main class="blogmain"><div class="col">
+  <div class="filters" role="group" aria-label="Filter posts">
+    <button type="button" aria-pressed="true" data-f="All">All</button>
+    <button type="button" aria-pressed="false" data-f="Release">Release</button>
+    <button type="button" aria-pressed="false" data-f="Community">Community</button>
+  </div>
+  <ul class="plist" id="plist">
+      <li data-tag="Release">
+        <div class="when"><time datetime="2026-10-24">24 Oct 2026</time><span class="tagchip">Release</span></div>
+        <div><h2><a href="post-lumora-27-beta-stage.html">Lumora 27 enters BETA stage!</a></h2><p>The first beta build of Lumora 27 is out. It should work on most computers, but nothing is guaranteed yet.</p><a class="more" href="post-lumora-27-beta-stage.html">Read post</a></div>
+      </li>
+      <li data-tag="Community">
+        <div class="when"><time datetime="2026-10-24">24 Oct 2026</time><span class="tagchip">Community</span></div>
+        <div><h2><a href="post-join-the-discord.html">Join the Lumora Discord server</a></h2><p>Lumora now has a Discord server. Come ask questions, report bugs from the beta and share your setup.</p><a class="more" href="post-join-the-discord.html">Read post</a></div>
+      </li>
+      <li data-tag="Release">
+        <div class="when"><time datetime="2026-10-18">18 Oct 2026</time><span class="tagchip">Release</span></div>
+        <div><h2><a href="post-beta-release-in-progress.html">Beta release in progress</a></h2><p>We are getting the first beta of Lumora 27 ready. Here is what to expect and how you can help test it.</p><a class="more" href="post-beta-release-in-progress.html">Read post</a></div>
+      </li>
+      <li data-tag="Community">
+        <div class="when"><time datetime="2026-10-17">17 Oct 2026</time><span class="tagchip">Community</span></div>
+        <div><h2><a href="post-lumora-in-development.html">Lumora in development</a></h2><p>Lumora is still being built. Here is where things stand and where we would like help.</p><a class="more" href="post-lumora-in-development.html">Read post</a></div>
+      </li>
+  </ul>
+  <p class="empty" id="empty" hidden>No posts in this category yet.</p>
+</div></main>
+<script>
+(function () {
+  var btns = document.querySelectorAll('.filters button');
+  var items = document.querySelectorAll('#plist li');
+  var empty = document.getElementById('empty');
+  Array.prototype.forEach.call(btns, function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-f'), shown = 0;
+      Array.prototype.forEach.call(btns, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      Array.prototype.forEach.call(items, function (li) {
+        var ok = f === 'All' || li.getAttribute('data-tag') === f;
+        li.hidden = !ok; if (ok) shown++;
+      });
+      empty.hidden = shown > 0;
+    });
+  });
+})();
+</script>
+<footer>
+  <div class="wrap">
+    <div>
+      <strong>Lumora</strong>
+      <small>An independent project aimed for usability and looks.</small>
+    </div>
+    <ul>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="index.html#download">Download</a></li>
+      <li><a href="index.html#support">Support</a></li>
+      <li><a href="index.html#funding">Donate</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
