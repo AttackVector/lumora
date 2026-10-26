@@ -28,7 +28,7 @@ You also need a USB stick of at least 8 GB to install from.
 
 Download the beta ISO (5.0 GB) from the website's download section:
 
-<https://mega.nz/file/DpAVXCBI#ewNLBim1wYgmI0_h5q7n4vqVbH98-K0eec_zPTqgc0A>
+<(https://mega.nz/file/S5hGSZyL#MO3ezVF2APco3AWhyABqpDiDNcexJlj0GBObFezArFE)>
 
 After downloading, check the file before you use it. Run this and compare the result with the checksum on the release page:
 
