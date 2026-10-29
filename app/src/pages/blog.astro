@@ -1,5 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('blog');
+const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))];
+const sortedPosts = allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 ---
 <style>
 /* Layout: logo + nav bar, hero (image left, text right), plain reading column, screenshot carousel, then list sections. Identity: ink blue and goldenrod, slab headings, paper-like page. */
@@ -179,46 +184,51 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
 </div></div>
 <main class="blogmain"><div class="col">
   <div class="filters" role="group" aria-label="Filter posts">
-    <button type="button" aria-pressed="true" data-f="All">All</button>
-    <button type="button" aria-pressed="false" data-f="Release">Release</button>
-    <button type="button" aria-pressed="false" data-f="Community">Community</button>
+    <button class="tag-btn" type="button" aria-pressed="true" data-filter="all">All</button>
+    {allTags.map(tag=>(
+      <button class="tag-btn" type="button" data-filter={tag}>{tag}</button>
+    ))}
   </div>
   <ul class="plist" id="plist">
-      <li data-tag="Release">
-        <div class="when"><time datetime="2026-10-24">24 Oct 2026</time><span class="tagchip">Release</span></div>
-        <div><h2><a href="post-lumora-27-beta-stage.html">Lumora 27 enters BETA stage!</a></h2><p>The first beta build of Lumora 27 is out. It should work on most computers, but nothing is guaranteed yet.</p><a class="more" href="post-lumora-27-beta-stage.html">Read post</a></div>
-      </li>
-      <li data-tag="Community">
-        <div class="when"><time datetime="2026-10-24">24 Oct 2026</time><span class="tagchip">Community</span></div>
-        <div><h2><a href="post-join-the-discord.html">Join the Lumora Discord server</a></h2><p>Lumora now has a Discord server. Come ask questions, report bugs from the beta and share your setup.</p><a class="more" href="post-join-the-discord.html">Read post</a></div>
-      </li>
-      <li data-tag="Release">
-        <div class="when"><time datetime="2026-10-18">18 Oct 2026</time><span class="tagchip">Release</span></div>
-        <div><h2><a href="post-beta-release-in-progress.html">Beta release in progress</a></h2><p>We are getting the first beta of Lumora 27 ready. Here is what to expect and how you can help test it.</p><a class="more" href="post-beta-release-in-progress.html">Read post</a></div>
-      </li>
-      <li data-tag="Community">
-        <div class="when"><time datetime="2026-10-17">17 Oct 2026</time><span class="tagchip">Community</span></div>
-        <div><h2><a href="post-lumora-in-development.html">Lumora in development</a></h2><p>Lumora is still being built. Here is where things stand and where we would like help.</p><a class="more" href="post-lumora-in-development.html">Read post</a></div>
-      </li>
+      {sortedPosts.map(post => (
+        <li data-tags={JSON.stringify(post.data.tags || [])} class="post-item">
+          <div class="when"><time datetime={post.pubDate}>{new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })}</time>
+              {post.data.tags.map(tag => (
+                <span class="tagchip">{tag}</span>
+              ))}
+            </div>
+          <div><h2><a href={`/posts/${post.id}`}>{post.data.title}</a></h2><p>{post.data.description}</p><a class="more" href={`/posts/${post.id}`}>Read post</a></div>
+        </li>
+      ))}
   </ul>
-  <p class="empty" id="empty" hidden>No posts in this category yet.</p>
 </div></main>
 <script>
-(function () {
-  var btns = document.querySelectorAll('.filters button');
-  var items = document.querySelectorAll('#plist li');
-  var empty = document.getElementById('empty');
-  Array.prototype.forEach.call(btns, function (b) {
-    b.addEventListener('click', function () {
-      var f = b.getAttribute('data-f'), shown = 0;
-      Array.prototype.forEach.call(btns, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      Array.prototype.forEach.call(items, function (li) {
-        var ok = f === 'All' || li.getAttribute('data-tag') === f;
-        li.hidden = !ok; if (ok) shown++;
+const buttons = document.querySelectorAll('.tag-btn');
+  const posts = document.querySelectorAll<HTMLElement>('.post-item');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Toggle active class on buttons
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const filterValue = button.getAttribute('data-filter');
+
+      posts.forEach(post => {
+        // Parse the tags array stored in the data-tags attribute
+        const postTags = JSON.parse(post.getAttribute('data-tags') || '[]');
+
+        if (filterValue === 'all' || postTags.includes(filterValue)) {
+          post.style.display = 'grid'; // Show matching posts
+        } else {
+          post.style.display = 'none';  // Hide non-matching posts
+        }
       });
-      empty.hidden = shown > 0;
     });
   });
-})();
 </script>
 </BaseLayout>

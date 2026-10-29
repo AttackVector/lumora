@@ -180,7 +180,11 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
   <h1>{ frontmatter.title }</h1>
   <p class="meta">
     <span>Written by {frontmatter.author}</span>
-    <time datetime="{frontmatter.pubDate}">{frontmatter.pubDate}</time>
+    <time datetime="{frontmatter.pubDate}">{new Date(frontmatter.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })}</time>
     {frontmatter.tags && (
         frontmatter.tags.map((tag) => (
             <span class="tagchip">{tag}</span>
@@ -206,7 +210,7 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
     )}
     
   </nav>
-  <a class="backlink" href="blog.html">All posts</a>
+  <a class="backlink" href="/blog">All posts</a>
 </div>
 </main>
 </BaseLayout>
