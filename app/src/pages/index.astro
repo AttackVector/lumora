@@ -1,5 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('blog');
+
+const latestPosts = allPosts
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 4);
 ---
 <style>
 /* Layout: logo + nav bar, hero (image left, text right), plain reading column, screenshot carousel, then list sections. Identity: ink blue and goldenrod, slab headings, paper-like page. */
@@ -123,8 +130,8 @@ body{margin:0}
   </svg>
   <div class="wrap">
     <div class="laptop" role="img" aria-label="A laptop running the Lumora desktop">
-      <img class="body" src="shots/laptop.png" alt="" width="348" height="238">
-      <img class="screen" src="shots/desktop-1.png" alt="">
+      <img class="body" src="/laptop.png" alt="" width="348" height="238">
+      <img class="screen" src="/desktop-1.png" alt="">
     </div>
     <div class="hero-text">
       <h1>The desktop you already know how to use.</h1>
@@ -149,7 +156,7 @@ body{margin:0}
     <h2>Desktop layout</h2>
     <p class="lede">Lumora's Desktop Layout.</p>
     <div class="shots">
-      <div class="frame"><img src="shots/desktop-2.png" alt="Lumora desktop with a purple wallpaper, top bar and bottom dock" width="1600" height="900"></div>
+      <div class="frame"><img src="/desktop-2.png" alt="Lumora desktop with a purple wallpaper, top bar and bottom dock" width="1600" height="900"></div>
     </div>
     <p class="cap">Top bar with a dock at the bottom (resembles a Darwin-like layout)</p>
   </div>
@@ -207,12 +214,18 @@ body{margin:0}
   <div class="col">
     <h2>Updates</h2>
     <ul class="posts">
-      <li><time datetime="2026-10-24">24 Oct 2026</time><a href="post-lumora-27-beta-stage.html">Lumora 27 enters BETA stage!</a></li>
-      <li><time datetime="2026-10-24">24 Oct 2026</time><a href="post-join-the-discord.html">Join the Lumora Discord server</a></li>
-      <li><time datetime="2026-10-18">18 Oct 2026</time><a href="post-beta-release-in-progress.html">Beta release in progress</a></li>
-      <li><time datetime="2026-10-17">17 Oct 2026</time><a href="post-lumora-in-development.html">Lumora in development</a></li>
+      {latestPosts.map(post => (
+        <li>
+          <time datetime={post.pubDate}>{new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+          })}</time>
+          <a href={`/posts/${post.id}`}>{post.data.title}</a>
+        </li>
+      ))}
     </ul>
-    <p style="margin:18px 0 0"><a href="blog.html" style="font-weight:600">All updates</a></p>
+    <p style="margin:18px 0 0"><a href="/" style="font-weight:600">All updates</a></p>
   </div>
 </section>
 
