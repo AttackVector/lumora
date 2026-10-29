@@ -1,0 +1,29 @@
+---
+---
+<style>
+.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 12px 32px; padding-block: 14px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--fg); text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 22px; }
+.brand svg { width: 36px; height: 36px; flex: none; }
+.top nav { display: flex; gap: 4px 26px; flex-wrap: wrap; flex: 1; min-width: 0; justify-content: flex-end; }
+.top nav a { color: var(--fg); text-decoration: none; font-size: 15.5px; font-weight: 500; padding: 4px 0; border-bottom: 2px solid transparent; }
+.top nav a:hover { border-bottom-color: var(--accent); }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+</style>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Lumora Linux home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#213a63"/><path d="M8 29c4-9 11-14 24-14-1 11-8 18-17 18-3 0-5-1.700-7-4z" fill="#e0a526"/><path d="M12 28l9-8" stroke="#213a63" stroke-width="2" stroke-linecap="round"/></svg>
+      Lumora™
+    </a>
+    <nav aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="blog.html">Blog</a>
+      <a href="#download">Download</a>
+      <a href="#support">Support</a>
+      <a href="#involved">Get Involved</a>
+      <a href="#funding">Funding</a>
+    </nav>
+  </div>
+</header>
