@@ -1,12 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lumora™</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection('blog');
+
+const latestPosts = allPosts
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 4);
+---
 <style>
-/* Layout: logo + nav bar, hero (image left, text right), plain reading column, screenshot carousel, then list sections. Identity: ink blue and goldenrod, slab headings, paper-like page. */
 :root {
   --bg: #f3f5f8;
   --surface: #ffffff;
@@ -80,6 +82,26 @@ h2 { font-family: var(--font-display); font-size: 31px; font-weight: 700; margin
 .shots .frame { min-width: 0; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--surface); box-shadow: 0 6px 20px rgba(23,42,74,.12); }
 .shots .frame svg, .shots .frame img { display: block; width: 100%; height: auto; }
 .cap { text-align: center; color: var(--muted); font-size: 15px; margin: 14px 0 0; }
+/* interactive screenshots */
+.shots .frame.stage { position: relative; overflow: visible; }
+.stage img { display: block; width: 100%; height: auto; border-radius: 3px; }
+.hot { position: absolute; transform: translate(-50%, -50%); background: transparent; border: 0; padding: 0; cursor: pointer; border-radius: 10px; }
+.hot::before { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--accent); box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 0 14px rgba(224,165,38,.7); animation: hotpulse 1.8s ease-out infinite; }
+.hot:hover::before, .hot:focus-visible::before { animation: none; background: rgba(224,165,38,.22); }
+@keyframes hotpulse { 0% { transform: scale(.92); opacity: 1; } 70% { transform: scale(1.12); opacity: .25; } 100% { transform: scale(1.12); opacity: 0; } }
+.hot .tip { position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%); white-space: nowrap; background: rgba(15,24,40,.92); color: #fff; font-size: 14px; line-height: 1.3; padding: 5px 10px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity .15s; z-index: 2; }
+.hot.right .tip { left: auto; right: 0; transform: none; }
+.hot.left .tip { left: 0; transform: none; }
+.hot.above .tip { top: auto; bottom: calc(100% + 8px); }
+.hot.center .tip { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.hot.quiet::before { animation: none; border-color: transparent; box-shadow: none; }
+.hot.quiet:hover::before, .hot.quiet:focus-visible::before { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,0,0,.35); background: rgba(224,165,38,.1); }
+.steps { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+.steps button { font: inherit; font-size: 14px; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+.steps button:hover { border-color: var(--accent); }
+.steps button[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+@media (prefers-reduced-motion: reduce) { .hot::before { animation: none; } }
+
 
 /* features as a ruled list */
 .feat { margin: 26px 0 0; padding: 0; display: grid; }
@@ -126,28 +148,9 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
   h2 { font-size: 26px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+body{margin:0}
 </style>
-<style>body{margin:0}</style>
-</head>
-<body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="Lumora Linux home">
-      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#213a63"/><path d="M8 29c4-9 11-14 24-14-1 11-8 18-17 18-3 0-5-1.700-7-4z" fill="#e0a526"/><path d="M12 28l9-8" stroke="#213a63" stroke-width="2" stroke-linecap="round"/></svg>
-      Lumora™
-    </a>
-    <nav aria-label="Main">
-      <a href="#about">About</a>
-      <a href="#features">Features</a>
-      <a href="blog.html">Blog</a>
-      <a href="#download">Download</a>
-      <a href="#support">Support</a>
-      <a href="#involved">Get Involved</a>
-      <a href="#funding">Funding</a>
-    </nav>
-  </div>
-</header>
-
+<BaseLayout title="Lumora™">
 <div id="top" class="hero">
   <svg class="sun" viewBox="0 0 760 760" aria-hidden="true">
     <g fill="none" stroke="#e0a526">
@@ -183,11 +186,14 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
 <section id="screens" style="padding-top:0">
   <div class="col">
     <h2>Desktop layout</h2>
-    <p class="lede">Lumora's Desktop Layout.</p>
+    <p class="lede">Lumora's desktop layout, with a top bar and a dock. Click the glowing spots in the picture to try it out.</p>
     <div class="shots">
-      <div class="frame"><img src="shots/desktop-2.png" alt="Lumora desktop with a purple wallpaper, top bar and bottom dock" width="1600" height="900"></div>
+      <div class="frame stage" id="stage">
+        <img id="shot" src="shots/screen-1-desktop.jpg" alt="Lumora desktop with a yellow palace wallpaper, a top bar and a dock at the bottom" width="1600" height="900">
+      </div>
     </div>
-    <p class="cap">Top bar with a dock at the bottom (resembles a Darwin-like layout)</p>
+    <p class="cap" id="shotcap" aria-live="polite">The Lumora desktop. Click Activities in the top left to see your open windows, or the leaf in the dock to show all apps.</p>
+    <div class="steps" id="steps" role="group" aria-label="Choose a screenshot"></div>
   </div>
 </section>
 
@@ -217,7 +223,8 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
         <a class="btn solid" href="https://download1585.mediafire.com/mbjb5uc3awggr6rAKcySNiJRxy5jmZMlv5SLvj0fYAXJSoxitQm6ojSghhBNAmyiekF29W00HFOvEuj8WMZre_ZmKZogcGxvKi4OGI6w0N-QxJEGAOrMH8QoHDGs-0NoO0jaJLEQEtSFDX_KHlVUY_tNWFJ79QBet8OPBxV9wmgx/ua7kr013u0e0rl6/lumora-27-beta-10-25-amd64.iso">Click on the link to download. (4.73 GB)</a>
         <a class="btn solid" href="https://lumora-project.tysona.cv/releases/lumora-27-beta-10-25-amd64.iso">Philidelphia Mirror</a>
         <a class="btn solid" href="http://mirror.tech-portal.me/lumora/lumora-27-beta-10-25-amd64.iso">European Mirror</a>
-        
+        <p class="note">After downloading, run <code>sha256sum lumora-27-beta-10-25-amd64.iso</code> and check that it matches this checksum:</p>
+<p class="note"><code style="word-break: break-all;">77c294b9a18f40c5b637aabb9c33f6d19a199dcdf71bcaf9da5c5cb1342edb4c</code></p>
       </div>
       <div class="rel">
         <h3>Lumora™ 27 (Release) </h3>
@@ -244,12 +251,18 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
   <div class="col">
     <h2>Updates</h2>
     <ul class="posts">
-      <li><time datetime="2026-10-24">24 Oct 2026</time><a href="post-lumora-27-beta-stage.html">Lumora 27 enters BETA stage!</a></li>
-      <li><time datetime="2026-10-24">24 Oct 2026</time><a href="post-join-the-discord.html">Join the Lumora Discord server</a></li>
-      <li><time datetime="2026-10-18">18 Oct 2026</time><a href="post-beta-release-in-progress.html">Beta release in progress</a></li>
-      <li><time datetime="2026-10-17">17 Oct 2026</time><a href="post-lumora-in-development.html">Lumora in development</a></li>
+      {latestPosts.map(post => (
+        <li>
+          <time datetime={post.pubDate}>{new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+          })}</time>
+          <a href={`/posts/${post.id}`}>{post.data.title}</a>
+        </li>
+      ))}
     </ul>
-    <p style="margin:18px 0 0"><a href="blog.html" style="font-weight:600">All updates</a></p>
+    <p style="margin:18px 0 0"><a href="/" style="font-weight:600">All updates</a></p>
   </div>
 </section>
 
@@ -273,21 +286,75 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
     <p class="lede">Lumora™ is free. Donations pay for development, better hardware, and a yearly report shows where the money went. Donations will come soon</p>
   </div>
 </section>
+</BaseLayout>
+<span id="resolver"></span>
+<script>
+(function () {
+  const resolver = document.getElementById("resolver"); // used to automatically add astro isolation data attributes
+  const astroAttr = Array.from(resolver.attributes)
+    .find(attr => attr.name.startsWith('data-astro-cid'))?.name;
+  var W = 1781, H = 1002; /* size of the original screenshots, used to place the clickable spots */
+  /* Behaves like GNOME Shell: Activities toggles the overview, the dock's Show Apps button toggles the app grid, Esc closes. */
+  var DESKTOP = 0, APPS = 1, WINDOWS = 2;
+  var activities = function (y) { return { x: 32, y: 16, w: 64, h: 28, label: 'Activities', tip: 'left', to: y }; };
+  var showApps = function (to) { return { x: 1037, y: 944, w: 70, h: 70, label: 'Show Apps', tip: 'above', to: to }; };
+  var screens = [
+    { src: 'shots/screen-1-desktop.jpg', name: 'Desktop',
+      alt: 'Lumora desktop with a yellow palace wallpaper, a top bar and a dock at the bottom',
+      cap: 'The Lumora desktop. Click Activities in the top left to see your open windows, or the leaf in the dock to show all apps.',
+      hot: [ activities(WINDOWS), showApps(APPS) ] },
+    { src: 'shots/screen-2-launcher.jpg', name: 'App grid',
+      alt: 'The Lumora app grid showing folders and apps over a blurred wallpaper',
+      cap: 'The app grid. Click the leaf again to go back to your open windows, or Activities to return to the desktop. Esc works too.',
+      hot: [ activities(DESKTOP), showApps(WINDOWS) ] },
+    { src: 'shots/screen-3-windows.jpg', name: 'Open windows',
+      alt: 'The Lumora windows overview showing the open desktop as a large preview',
+      cap: 'Your open windows. Click the window to open it, the leaf to show all apps, or Activities to return to the desktop. Esc works too.',
+      hot: [ activities(DESKTOP), showApps(APPS),
+             { x: 888, y: 486, w: 1394, h: 760, label: 'Open this window', tip: 'center', quiet: true, to: DESKTOP } ] }
+  ];
+  var stage = document.getElementById('stage'), img = document.getElementById('shot'),
+      cap = document.getElementById('shotcap'), steps = document.getElementById('steps');
+  var current = DESKTOP;
+  screens.forEach(function (sc) { var pre = new Image(); pre.src = sc.src; });
 
-<footer>
-  <div class="wrap">
-    <div>
-      <strong>Lumora™</strong>
-      <small>An independent project aimed for usability and looks.</small>
-    </div>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="#download">Download</a></li>
-      <li><a href="#support">Support</a></li>
-      <li><a href="#funding">Donate</a></li>
-    </ul>
-  </div>
-</footer>
-</body>
-</html>
+  screens.forEach(function (sc, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = sc.name;
+    b.addEventListener('click', function () { show(i); });
+    if (astroAttr) {
+      b.setAttribute(astroAttr, '');
+    }
+    steps.appendChild(b);
+  });
+
+  function show(i) {
+    current = i;
+    var sc = screens[i];
+    Array.prototype.forEach.call(stage.querySelectorAll('.hot'), function (h) { h.remove(); });
+    img.src = sc.src; img.alt = sc.alt;
+    cap.textContent = sc.cap;
+    sc.hot.forEach(function (h) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'hot ' + (h.tip || '') + (h.quiet ? ' quiet' : '');
+      b.style.left = (h.x / W * 100) + '%';
+      b.style.top = (h.y / H * 100) + '%';
+      b.style.width = 'max(' + (h.w / W * 100) + '%, 44px)';
+      b.style.height = 'max(' + (h.h / H * 100) + '%, 36px)';
+      b.setAttribute('aria-label', h.label);
+      b.addEventListener('click', function () { show(h.to); });
+      if (astroAttr) {
+        b.setAttribute(astroAttr, '');
+        b.innerHTML = `<span class="tip" ${astroAttr}> ${h.label} </span>`;
+      }
+      stage.appendChild(b);
+    });
+    Array.prototype.forEach.call(steps.children, function (b, k) { b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && current !== DESKTOP) show(DESKTOP);
+  });
+  show(DESKTOP);
+})();
+</script>
