@@ -78,6 +78,26 @@ h2 { font-family: var(--font-display); font-size: 31px; font-weight: 700; margin
 .shots .frame { min-width: 0; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--surface); box-shadow: 0 6px 20px rgba(23,42,74,.12); }
 .shots .frame svg, .shots .frame img { display: block; width: 100%; height: auto; }
 .cap { text-align: center; color: var(--muted); font-size: 15px; margin: 14px 0 0; }
+/* interactive screenshots */
+.shots .frame.stage { position: relative; overflow: visible; }
+.stage img { display: block; width: 100%; height: auto; border-radius: 3px; }
+.hot { position: absolute; transform: translate(-50%, -50%); background: transparent; border: 0; padding: 0; cursor: pointer; border-radius: 10px; }
+.hot::before { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--accent); box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 0 14px rgba(224,165,38,.7); animation: hotpulse 1.8s ease-out infinite; }
+.hot:hover::before, .hot:focus-visible::before { animation: none; background: rgba(224,165,38,.22); }
+@keyframes hotpulse { 0% { transform: scale(.92); opacity: 1; } 70% { transform: scale(1.12); opacity: .25; } 100% { transform: scale(1.12); opacity: 0; } }
+.hot .tip { position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%); white-space: nowrap; background: rgba(15,24,40,.92); color: #fff; font-size: 14px; line-height: 1.3; padding: 5px 10px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity .15s; z-index: 2; }
+.hot.right .tip { left: auto; right: 0; transform: none; }
+.hot.left .tip { left: 0; transform: none; }
+.hot.above .tip { top: auto; bottom: calc(100% + 8px); }
+.hot.center .tip { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.hot.quiet::before { animation: none; border-color: transparent; box-shadow: none; }
+.hot.quiet:hover::before, .hot.quiet:focus-visible::before { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,0,0,.35); background: rgba(224,165,38,.1); }
+.steps { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+.steps button { font: inherit; font-size: 14px; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+.steps button:hover { border-color: var(--accent); }
+.steps button[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+@media (prefers-reduced-motion: reduce) { .hot::before { animation: none; } }
+
 
 /* features as a ruled list */
 .feat { margin: 26px 0 0; padding: 0; display: grid; }
