@@ -52,7 +52,7 @@ a { color: var(--link); }
 
 /* hero */
 .hero { background: var(--ink); color: var(--on-ink); position: relative; overflow: hidden; }
-.hero .sun { position: absolute; left: -6%; top: 50%; width: 760px; max-width: none; height: 760px; transform: translateY(-50%); pointer-events: none; }
+.hero .sun { position: absolute; left: -6%; top: 50%; width: 400px; max-width: none; height: 400px; transform: translateY(-50%); pointer-events: none; }
 .hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px; align-items: center; padding-block: 60px; }
 .hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 4.6vw, 48px); line-height: 1.12; margin: 0 0 16px; text-wrap: balance; }
 .hero p { font-size: clamp(18px, 2.2vw, 21px); line-height: 1.5; margin: 0 0 28px; max-width: 30em; color: #d6deec; }
@@ -186,7 +186,7 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
                 day: 'numeric'
               })}</time>
     {frontmatter.tags && (
-        frontmatter.tags.map((tag) => (
+        frontmatter.tags.map((tag : string) => (
             <span class="tagchip">{tag}</span>
         ))
     )}

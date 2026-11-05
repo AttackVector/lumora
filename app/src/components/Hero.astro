@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+
+import laptop from '../assets/laptop.png';
+import desktop1 from '../assets/desktop-1.png';
+---
+<style>
+.hero { background: var(--ink); color: var(--on-ink); position: relative; overflow: hidden; }
+.hero .sun { position: absolute; left: -6%; top: 50%; width: 760px; max-width: none; height: 760px; transform: translateY(-50%); pointer-events: none; }
+.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px; align-items: center; padding-block: 60px; }
+.hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 4.6vw, 48px); line-height: 1.12; margin: 0 0 16px; text-wrap: balance; }
+.hero p { font-size: clamp(18px, 2.2vw, 21px); line-height: 1.5; margin: 0 0 28px; max-width: 30em; color: #d6deec; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 10px 20px; border-radius: 3px; text-decoration: none; font-size: 16.5px; font-weight: 600; border: 2px solid transparent; }
+.btn.solid { background: var(--accent); color: var(--accent-fg); }
+.btn.solid:hover { filter: brightness(1.07); }
+.btn.line { border-color: rgba(244,246,250,.55); color: var(--on-ink); }
+.btn.line:hover { background: rgba(255,255,255,.12); }
+.laptop { position: relative; max-width: 480px; justify-self: center; filter: drop-shadow(0 18px 24px rgba(0,0,0,.35)); }
+.laptop .body { display: block; width: 100%; height: auto; }
+.laptop .screen { position: absolute; left: 10.92%; top: 8.82%; width: 77.59%; height: 69.33%; object-fit: cover; border-radius: 2px; }
+.laptop > img:first-child { width: 100%; height: auto; display: block; }
+@media (max-width: 520px) {
+  .laptop { max-width: 100%; }
+}
+
+@media (max-width: 820px) {
+  .hero .wrap { grid-template-columns: 1fr; padding-block: 38px; gap: 30px; }
+  .hero-text { order: 1; } .laptop { order: 2; max-width: 340px; }
+  .dl { grid-template-columns: 1fr; }
+  .top nav { justify-content: flex-start; }
+  .feat > div { grid-template-columns: 1fr; gap: 2px; }
+}
+</style>
+<div id="top" class="hero">
+  <svg class="sun" viewBox="0 0 760 760" aria-hidden="true">
+    <g fill="none" stroke="#e0a526">
+      <circle cx="380" cy="380" r="120" stroke-opacity=".28" stroke-width="2"/>
+      <circle cx="380" cy="380" r="200" stroke-opacity=".2" stroke-width="2"/>
+      <circle cx="380" cy="380" r="280" stroke-opacity=".14" stroke-width="2"/>
+      <circle cx="380" cy="380" r="360" stroke-opacity=".09" stroke-width="2"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <div class="laptop" role="img" aria-label="A laptop running the Lumora desktop">
+      <Image src={laptop} alt="Lumora laptop" loading="lazy" fetchpriority="high" />
+      <Image src={desktop1} alt="Lumora desktop" class="screen" loading="lazy" fetchpriority="high" />
+    </div>
+    <div class="hero-text">
+      <h1>The desktop you already know how to use.</h1>
+      <p>Lumora™ is a feature-filled, easy to use Linux distro, with a familiar layout.</p>
+      <div class="actions">
+        <a class="btn solid" href="#download">Download the beta!</a>
+        <a class="btn line" href="#about">Learn more</a>
+      </div>
+    </div>
+  </div>
+</div>

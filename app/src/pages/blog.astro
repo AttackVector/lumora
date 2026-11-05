@@ -192,14 +192,14 @@ footer small { display: block; color: #b4c0d6; margin-top: 6px; max-width: 34em;
   <ul class="plist" id="plist">
       {sortedPosts.map(post => (
         <li data-tags={JSON.stringify(post.data.tags || [])} class="post-item">
-          <div class="when"><time datetime={post.pubDate}>{new Date(post.data.pubDate).toLocaleDateString('en-US', {
+          <div class="when"><time datetime={post.data.pubDate.toISOString()}>{new Date(post.data.pubDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
               })}</time>
-              {post.data.tags.map(tag => (
+              {post.data.tags && (post.data.tags.map(tag => (
                 <span class="tagchip">{tag}</span>
-              ))}
+              )))}
             </div>
           <div><h2><a href={`/posts/${post.id}`}>{post.data.title}</a></h2><p>{post.data.description}</p><a class="more" href={`/posts/${post.id}`}>Read post</a></div>
         </li>

@@ -1,14 +1,10 @@
 ---
 title: 'Beta release in progress'
-pubDate: 2026-10-18
+pubDate: 2026-10-18T00:00:00.000Z
 description: 'We are getting the first beta of Lumora 27 ready. Here is what to expect and how you can help test it.'
 author: 'Developer'
 tags: ["Release"]
 ---
-<style is:inline>
-.callout { border-left: 4px solid var(--accent); background: var(--surface); padding: 14px 18px; margin: 1.4em 0; border-radius: 0 4px 4px 0; }
-.callout p { margin: 0; }
-</style>
 We are putting together the first beta build of Lumora 27. When it is ready, we will post it on the website
   and announce it here.
 

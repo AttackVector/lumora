@@ -6,7 +6,7 @@ export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
   
   // Sort posts chronologically (oldest to newest)
-  allPosts.sort((a, b) => new Date(a.data.pubDate) - new Date(b.data.pubDate));
+  allPosts.sort((a, b) => +new Date(a.data.pubDate) - +new Date(b.data.pubDate));
 
   return allPosts.map((post, index) => {
     const prevPost = index > 0 ? allPosts[index - 1] : null;

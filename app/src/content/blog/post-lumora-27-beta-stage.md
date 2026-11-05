@@ -1,15 +1,10 @@
 ---
 title: 'Lumora 27 enters BETA stage!'
-pubDate: 2026-10-24
+pubDate: 2026-10-24T00:00:00Z
 description: 'The first beta build of Lumora 27 is out. It should work on most computers, but nothing is guaranteed yet.'
 author: 'Developer'
 tags: ["Release"]
 ---
-<style is:inline>
-.callout { border-left: 4px solid var(--accent); background: var(--surface); padding: 14px 18px; margin: 1.4em 0; border-radius: 0 4px 4px 0; }
-.callout p { margin: 0; }
-</style>
-
 Lumora 27 has reached beta. The beta build was compiled on 24 October, and you can get it from the [download section](/#download"). The download is 5.0 GB and is hosted on MEGA.
 
 <div class="callout">This is a beta release. It should work with most systems, but compatibility and stability are not guaranteed. Use it at your own risk, and back up anything you care about first. The Lumora team is not responsible for lost data.</div>

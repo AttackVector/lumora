@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection("blog");
+
+const latestPosts = allPosts
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 4);
+---
+<style>
+.band { background: var(--surface); border-block: 1px solid var(--line); }
+.col { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.posts { list-style: none; padding: 0; margin: 18px 0 0; }
+.posts li { display: flex; gap: 20px; padding: 12px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.posts time { font-family: var(--font-mono); color: var(--muted); font-size: 14.5px; flex: none; width: 8em; }
+.posts a { font-size: 18px; font-weight: 500; }
+
+@media (max-width: 520px) {
+  .posts li { flex-direction: column; gap: 0; }
+  h2 { font-size: 26px; }
+}
+</style>
+<section id="news" class="band">
+  <div class="col">
+    <h2>Updates</h2>
+    <ul class="posts">
+      {latestPosts.map(post => (
+        <li>
+          <time datetime={post.data.pubDate.toISOString()}>{new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+          })}</time>
+          <a href={`/posts/${post.id}`}>{post.data.title}</a>
+        </li>
+      ))}
+    </ul>
+    <p style="margin:18px 0 0"><a href="/" style="font-weight:600">All updates</a></p>
+  </div>
+</section>

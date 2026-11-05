@@ -1,6 +1,6 @@
 ---
 title: 'Lumora in development'
-pubDate: 2026-10-17
+pubDate: 2026-10-17T00:00:00Z
 description: 'Lumora is still being built. Here is where things stand and where we would like help.'
 author: 'Developer'
 tags: ["Community"]

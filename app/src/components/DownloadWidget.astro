@@ -1,0 +1,50 @@
+<style>
+.dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 24px; }
+.rel { border: 1px solid var(--line); background: var(--bg); border-radius: 4px; padding: 24px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.rel h3 { margin: 0; font-family: var(--font-display); font-size: 21px; }
+.tag { font-family: var(--font-mono); font-size: 13.5px; color: var(--muted); }
+.rel p { margin: 0; color: var(--muted); font-size: 16px; }
+.rel .btn { align-self: flex-start; margin-top: 8px; }
+.req { margin-top: 24px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 16px; min-width: 460px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; color: var(--muted); font-size: 13.5px; letter-spacing: .06em; text-transform: uppercase; }
+code { font-family: var(--font-mono); font-size: .92em; }
+.note { margin: 16px 0 0; font-size: 15px; color: var(--muted); }
+.col { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.lede { margin: 0; max-width: 40em; }
+</style>
+<section id="download" style="margin-bottom: 12px;">
+  <div class="col">
+    <h2>Download</h2>
+    <p class="lede">Write the image to a USB stick of at least 8 GB or more and try Lumora live before you install it.</p>
+    <div class="dl">
+      <div class="rel">
+        <h3>Lumora™ 27 (Halloween Beta)</h3>
+        <span class="tag">Beta Release </span>
+        <p>More polished. Installer should launch without cmdline. Should work with most systems, but compatibility & stability is not guaranteed. Try this release at your own risk. No responsibility goes to the Lumora team if any data is lost.</p>
+        <a class="btn solid" href="https://drive.google.com/file/d/14DrvBIvobhnPa_rlOyokpgoXZe-AOfZc/view?usp=sharing">Click on the link to download. (5.6 GB)</a>
+        <a class="btn solid" href="http://mirror.tech-portal.me/lumora/lumora-27-halloween-beta-amd64.iso"> European Mirror </a>
+        <p class="note">After downloading, run <code>sha256sum lumora-27-halloween-beta-amd64.iso</code> and check that it matches this checksum:</p>
+<p class="note"><code style="word-break: break-all;">5d69038e04a4a9c55660ff5b9ca75bda</code></p>
+      </div>
+      <div class="rel">
+        <h3>Lumora™ 27 (Release) </h3>
+        <span class="tag">Supported until 2031</span>
+        <p>Planned Release Date: November 27th, 2026</p>
+        <a class="btn solid" href="#download">Download ISO (? GB)</a>
+      </div>
+    </div>
+    <div class="req">
+      <table>
+        <thead><tr><th>Minimum</th><th>Recommended</th></tr></thead>
+        <tbody>
+          <tr><td>Dual Core 64-bit processor</td><td>Quad core, 3 GHz or faster</td></tr>
+          <tr><td>4 GB RAM</td><td>8+ GB RAM</td></tr>
+          <tr><td>20 GB disk space</td><td>128 GB disk space</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">After downloading, run <code>sha256sum lumora-XX-XXXXXX-amd64.iso</code> and compare the result with the checksum on the release page.</p>
+  </div>
+</section>
