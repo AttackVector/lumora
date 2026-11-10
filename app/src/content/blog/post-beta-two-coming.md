@@ -11,10 +11,15 @@ We are putting together the third beta build of Lumora 27. It SHOULD be ready by
 * Internet does not connect -->
   Use the workaround listed below
 `ls -l /stub-resolv.conf`
+
 `sudo rm /stub-resolv.conf`
+
 `sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf`
+
 `ls -l /etc/resolv.conf`
+
 `ping -c 3 ubuntu.com`
+
 * Desktop loses its icons and becomes unstable after hours of usage
   Logout & Log Back in (fix is on the way)
   
