@@ -10,6 +10,7 @@ We are putting together the third beta build of Lumora 27. It SHOULD be ready by
 ## Bugs Found in the Halloween Beta (as of 11/10)
 * Internet does not connect -->
   Use the workaround listed below
+  
 `ls -l /stub-resolv.conf`
 
 `sudo rm /stub-resolv.conf`
