@@ -64,4 +64,4 @@ You do not need to write code to help. Testing the beta, writing documentation a
 
 ## About
 
-Lumora is an independent project aimed at usability and looks. It is built by a high school Linux enthusiast. Ubuntu and other software included in Lumora belong to their respective owners.
+Lumora is an independent project aimed at usability and looks. Ubuntu and other software included in Lumora belong to their respective owners.
