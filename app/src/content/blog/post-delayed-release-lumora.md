@@ -1,7 +1,7 @@
 ---
 title: 'An Important Announcement'
 pubDate: 2026-11-27T00:00:00.000Z
-description: 'Lumora's Release has been delayed to Jan. 16th, 2027'
+description: 'Our first Lumora release has been delayed to Jan. 16th, 2027'
 author: 'AttackVector'
 tags: ["Release", "Community"]
 ---
